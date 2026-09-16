@@ -1,0 +1,4 @@
+hw1/markers/marker.txt
+.env
+*.key
+node_modules/

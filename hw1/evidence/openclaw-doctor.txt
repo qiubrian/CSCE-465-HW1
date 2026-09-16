@@ -1,0 +1,115 @@
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+██░▄▄▄░██░▄▄░██░▄▄▄██░▀██░██░▄▄▀██░████░▄▄▀██░███░██
+██░███░██░▀▀░██░▄▄▄██░█░█░██░█████░████░▀▀░██░█░█░██
+██░▀▀▀░██░█████░▀▀▀██░██▄░██░▀▀▄██░▀▀░█░██░██▄▀▄▀▄██
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                       OPENCLAW                       
+ 
+┌  OpenClaw doctor
+│
+◇  Update ───────────────────────────────────────────────────────────────╮
+│                                                                        │
+│  This install is not a git checkout.                                   │
+│  Run `openclaw update` to update via your package manager (npm/pnpm),  │
+│  then rerun doctor.                                                    │
+│                                                                        │
+├────────────────────────────────────────────────────────────────────────╯
+│
+◇  Startup optimization ────────────────────────────────────────────────╮
+│                                                                       │
+│  - NODE_COMPILE_CACHE is not set; repeated CLI runs can be slower on  │
+│    small hosts (Raspberry Pi/VM).                                     │
+│  - OPENCLAW_NO_RESPAWN is not set to 1; set it when you want routine  │
+│    gateway restarts to stay in-process instead of handing off to a    │
+│    managed supervisor.                                                │
+│  - Suggested env for low-power hosts:                                 │
+│    export NODE_COMPILE_CACHE=/var/tmp/openclaw-compile-cache          │
+│    mkdir -p /var/tmp/openclaw-compile-cache                           │
+│    export OPENCLAW_NO_RESPAWN=1                                       │
+│                                                                       │
+├───────────────────────────────────────────────────────────────────────╯
+│
+◇  Command owner ─────────────────────────────────────────────────────────╮
+│                                                                         │
+│  No command owner is configured.                                        │
+│  A command owner is the human operator account allowed to run           │
+│  owner-only commands and approve dangerous actions, including           │
+│  /diagnostics, /export-trajectory, /config, and exec approvals.         │
+│  DM pairing only lets someone talk to the bot; it does not make that    │
+│  sender the owner for privileged commands.                              │
+│  Fix: set commands.ownerAllowFrom to your channel user id, for example  │
+│  openclaw config set commands.ownerAllowFrom '["telegram:123456789"]'   │
+│  Restart the gateway after changing this if it is already running.      │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────╯
+│
+◇  State integrity ────────────────────────────────────────────────────╮
+│                                                                      │
+│  - OAuth dir not present (~/.openclaw/credentials). Skipping create  │
+│    because no WhatsApp/pairing channel config is active.             │
+│                                                                      │
+├──────────────────────────────────────────────────────────────────────╯
+│
+◇  Gateway service config ─────────────────────────────────────────────────╮
+│                                                                          │
+│  - Gateway service uses Node from a version manager; it can break after  │
+│    upgrades. (/home/ubuntu/.nvm/versions/node/v24.18.0/bin/node)         │
+│  - System Node 22 LTS (22.22.3+) or Node 24.15+ not found; install it    │
+│    before migrating away from version managers.                          │
+│                                                                          │
+├──────────────────────────────────────────────────────────────────────────╯
+[?25l│
+◆  Update gateway service config to the recommended defaults now?
+│  ● Yes / ○ No
+└
+[999D[4A[2B[2K[G│  ○ Yes / ● No[2B[999D[4A[2B[2K[G│  ● Yes / ○ No[2B[999D[4A[2B[2K[G│  ○ Yes / ● No[2B[999D[4A[1B[J◇  Update gateway service config to the recommended defaults now?
+│  No
+[?25h│
+◇  Gateway service config ──────────────────────────────────────────────╮
+│                                                                       │
+│  Run `openclaw gateway install --force` when you want to replace the  │
+│  gateway service definition.                                          │
+│                                                                       │
+├───────────────────────────────────────────────────────────────────────╯
+│
+◇  Security ─────────────────────────────────────────────────────────────╮
+│                                                                        │
+│  - WARNING: openclaw.json contains plaintext secret-bearing config     │
+│    fields.                                                             │
+│    Paths: gateway.auth.token, models.providers.tamus.apiKey            │
+│    Agents or workspace tools that can read config files may see these  │
+│    API keys/tokens.                                                    │
+│    Migrate them to SecretRefs with openclaw secrets configure or       │
+│    openclaw secrets apply, then verify with openclaw secrets audit     │
+│    --check.                                                            │
+│  - Run: openclaw security audit --deep                                 │
+│                                                                        │
+├────────────────────────────────────────────────────────────────────────╯
+│
+◇  Skills status ─────────────────────────────────────╮
+│                                                     │
+│  Eligible: 14                                       │
+│  Missing requirements: 0                            │
+│  Incompatible (platform mismatch, auto-skipped): 6  │
+│  Blocked by allowlist: 0                            │
+│                                                     │
+├─────────────────────────────────────────────────────╯
+│
+◇  Plugins ─────╮
+│               │
+│  Loaded: 32   │
+│  Imported: 0  │
+│  Disabled: 1  │
+│  Errors: 0    │
+│               │
+├───────────────╯
+│
+◇  Memory search ──────────────────────────────────────────╮
+│                                                          │
+│  Memory search is explicitly disabled (enabled: false).  │
+│                                                          │
+├──────────────────────────────────────────────────────────╯
+Run "openclaw doctor --fix" to apply changes.
+│
+└  Doctor complete.
+
