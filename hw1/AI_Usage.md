@@ -343,3 +343,135 @@ So your immediate next move should be:
 7. git add/commit/push
 
 Your threat-model.md itself no longer needs major content changes.
+
+
+
+Prompt: [Given text for report.md] Check so far for grammar, technical mistakes, and bad wording
+
+Response: 
+
+You’re at 614 words, so you’re safely inside the required 500–700 word range. You also now cover all the required topics: vulnerable component, attacker-controlled input, preconditions, root cause, impact, fix, regression test, and prompt injection.
+
+I would make these exact fixes before submitting:
+
+Opening sentence
+
+Current:
+
+remembered reusable command approvals outside the working directory and into other directories without reapproval
+
+Better:
+
+allowed reusable command approvals to remain valid outside the working directory where they were originally approved, allowing them to be reused in other directories without reapproval
+
+Also change:
+
+2026.8.1 system version
+
+to:
+
+OpenClaw version 2026.8.1
+
+First sentence of paragraph 2 is grammatically incomplete.
+
+Current:
+
+This vulnerability was a problem because when openclaw would ask to execute a command that, in the scope of the context it was being executed in, appeared to be harmless and aligned with the work being done in that directory.
+
+Change to:
+
+This vulnerability was a problem because OpenClaw could ask to execute a command that, within the context of its working directory, appeared harmless and aligned with the work being done.
+
+Root-cause sentence
+
+Current:
+
+This problem was caused by an oversight to how reuseable exec command approvals were saved, openclaw originally just "remembered" that the command was approved, but it didnt take into account that the scope of the command was important too.
+
+Change to:
+
+This problem was caused by an oversight in how reusable exec command approvals were saved. OpenClaw originally just "remembered" that the command was approved, but it didn't properly take into account that the scope of the command was important too.
+
+Also:
+
+reuseable → reusable
+didnt → didn't
+capitalize every openclaw → OpenClaw
+
+Attacker paragraph has one technical wording issue.
+
+Current:
+
+the attacker could only use that reusable approval for other working directories
+
+Better:
+
+the attacker could not change the approved command to any command they wanted. Instead, they could attempt to reuse the same approved command in another working directory, potentially affecting different sensitive files or resources.
+
+This makes it clear that the vulnerability changes the directory/context, not the approved command.
+
+Fix paragraph
+
+Change:
+
+stored and connected
+
+to:
+
+stored and scoped
+
+Change:
+
+exact working directory it was approved in
+
+to:
+
+exact working directory in which it was approved
+
+Change:
+
+as its not in the same directory anymore
+
+to:
+
+because it's no longer being executed in the same directory.
+
+Impact paragraph
+
+Current:
+
+If it was approved for a general command, like modification or reading files
+
+Better:
+
+If reusable approval was given to a command that could modify or read files
+
+And:
+
+expose or break sensitive files or code
+
+would sound more accurate as:
+
+expose, modify, or delete sensitive files or code
+
+Prompt-injection paragraph — this is the biggest remaining technical wording fix.
+
+Current:
+
+an attacker could sneak a hidden command to execute a known command that was given reusable approval on a different working directory.
+
+This sounds like the attacker is directly injecting a shell command. Better:
+
+an attacker could place malicious instructions inside untrusted content that attempts to convince the agent to execute a previously approved command from a different working directory.
+
+Then change:
+
+send the instructions to expose the vulnerability
+
+to:
+
+provide the instructions needed to exploit the vulnerability
+
+And isnt → isn't.
+
+After those changes, the content itself is in good shape. You do not need to add another section—you already have enough words and cover all eight required advisory points.
