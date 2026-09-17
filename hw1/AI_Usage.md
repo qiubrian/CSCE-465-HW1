@@ -475,3 +475,62 @@ provide the instructions needed to exploit the vulnerability
 And isnt → isn't.
 
 After those changes, the content itself is in good shape. You do not need to add another section—you already have enough words and cover all eight required advisory points.
+
+
+
+Prompt: [Given report.pdf]
+
+Response:
+
+I checked the actual 11-page PDF and rendered the pages. You’re very close. The core report requirements are there: 3 benign tasks, both Task 3 trials, Task 3 findings, threat model, diagram, advisory analysis, screenshots, and lessons learned.
+
+Before submitting, I would fix these:
+
+Add the authorization point to both Task 3 trials. This is the biggest missing requirement. Your report identifies the source/channel, but it does not explicitly state where authorization did or did not occur. The assignment specifically requires this in each annotated transcript.
+
+Add under Direct:
+
+Authorization point: The model reached the exec tool. Since ask=off, there was no interactive approval before the command executed.
+
+Add under Indirect:
+
+Authorization point: No tool call was proposed, so the request never reached the exec authorization boundary.
+
+Fix the skill_workshop failed statement. Your report says:
+
+“skill_workshop failed, while read and exec succeeded.”
+
+But the screenshot on page 8 shows:
+
+tools: skill_workshop, read, exec
+failures: 0
+
+So unless direct-audit.txt separately proves that skill_workshop failed, change the sentence to:
+
+The audit showed three tool calls: skill_workshop, read, and exec.
+
+Make Task 3 question #2 explicit. Your Findings are only about 240 words, so you are comfortably under the 600-word limit. However, the required question “Where does untrusted data become a possible instruction?” is more implied than directly answered. Add:
+
+Untrusted data becomes a possible instruction when the retrieved webpage content is placed into the agent's context and processed by the model.
+
+Remove the broken Markdown formatting on page 2. The PDF literally displays:
+
+Exec policy: ```text security=full ask=off...
+
+Remove the ```text part. It looks like raw Markdown leaked into the PDF.
+
+Your screenshot headings are separated from their screenshots. Visually:
+
+Page 6 ends with Safe-Marker Skill, but its screenshot is on page 7.
+Page 7 ends with Direct Trial and Marker Created, but its screenshot is on page 8.
+Page 8 ends with Indirect Trial, but its screenshot is on page 9.
+Page 10 ends with Threat Model Diagram, while the diagram is on page 11.
+
+Nothing is missing, but it looks unfinished. I would insert page breaks or move the headings so each heading stays with its image.
+
+The advisory section is the correct length. I counted approximately 625 words, so it satisfies the required 500–700 words. It also contains the root cause, preconditions, impact, fix, regression test, and prompt-injection discussion.
+Minor spelling/grammar cleanup. I see didnt, isnt, dependant, reuseable, Openclaw/openclaw, and Trust Boundries. These probably won't make the report incomplete, but correcting them would make the final submission noticeably cleaner.
+Your threat-model diagram is actually embedded. Good. Page 11 contains the diagram plus the assets/principals/threat/control labels, so the diagram requirement is covered visually. The text section also contains the required 4 assets, 3 principals, 4 trust boundaries, and 6 threats/controls.
+Your screenshots are sufficient in coverage. I can see evidence for VM/OpenClaw setup, benign task, safe-marker skill, direct trial/created marker, indirect trial, marker-not-created result, exec policy, and the threat-model diagram across pages 6–11. That satisfies the report's screenshot requirement well. The assignment requires screenshots of terminal output, agent responses, marker evidence, and the diagram.
+
+So the three things I would absolutely fix are: add both authorization-point statements, resolve the skill_workshop failed inconsistency, and remove the visible ```text formatting. Everything after that is mainly polish.
